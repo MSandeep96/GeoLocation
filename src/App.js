@@ -1,18 +1,39 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import User from './components/User/User';
+import MapView from './components/MapView';
+import ToggleUserBtn from './components/ToggleUserBtn';
 import './App.css';
 
+
+/**
+ * Handles drawer state
+ * userView -> drawer is shown
+ * toggled -> drawer settings are toggled for animation
+ */
 class App extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      userView: false,
+      toggled: false
+    };
+    this.toggleUserView = this.toggleUserView.bind(this);
+  }
+
+  toggleUserView(){
+    this.setState((prevState)=>({
+      userView: !prevState.userView,
+      toggled: true
+    }));
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <User userView={this.state.userView} toggled={this.state.toggled} />
+        <MapView />
+        <ToggleUserBtn userView={this.state.userView} toggleUserView={this.toggleUserView}/>
       </div>
     );
   }

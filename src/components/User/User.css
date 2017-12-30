@@ -1,0 +1,41 @@
+.slider{
+  position: fixed;
+  width: 30%;
+  height: 100%;
+  margin-left: -30%;
+  background-color: brown;
+}
+
+.show{
+  animation-name: slideIn;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+}
+
+.hide{
+  animation-name: slideOut;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+}
+
+@keyframes slideIn{
+  
+  from{
+    margin-left: -30%;
+  }
+
+  to{
+    margin-left: 0%;
+  }
+}
+
+@keyframes slideOut{
+  
+  from{
+    margin-left: 0%;
+  }
+
+  to{
+    margin-left: -30%;
+  }
+}

@@ -1,0 +1,9 @@
+.toggleBtn{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 0;
+  background-color: black;
+  border-radius: 50%;
+  color: white;
+}
