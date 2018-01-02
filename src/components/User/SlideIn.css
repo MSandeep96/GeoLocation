@@ -2,8 +2,12 @@
   position: fixed;
   width: 30%;
   height: 100%;
-  margin-left: -30%;
-  background-color: brown;
+  margin-left: calc(-30% - 10px);
+  background-color: white;
+  padding: 60px 20px 20px 20px;
+  box-sizing: border-box;
+  box-shadow: 10px 0px 5px grey;
+  
 }
 
 .show{
@@ -21,7 +25,7 @@
 @keyframes slideIn{
   
   from{
-    margin-left: -30%;
+    margin-left: calc(-30% - 10px);
   }
 
   to{
@@ -36,6 +40,6 @@
   }
 
   to{
-    margin-left: -30%;
+    margin-left: calc(-30% - 10px);
   }
 }

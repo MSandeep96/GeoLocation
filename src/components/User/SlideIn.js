@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
-import './User.css'
+import './SlideIn.css'
+import UserForm from './Login/UserForm';
 /**
- * Displays login/user details when opened. 
- * Doesn't render if not in user view.
+ * Displays login/user details when opened.
  */
-class User extends Component {
+class SlideIn extends Component {
   render() {
-    console.log(this.props);
     let classVal = 'slider ';
     if(this.props.toggled)
       classVal += this.props.userView?'show':'hide';
     return (
       <div className={classVal} >
-        <h1>Hello</h1>
+        <UserForm />
       </div>
     );
   }
 }
 
-export default User;
+export default SlideIn;

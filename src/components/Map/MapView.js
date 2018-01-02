@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import './MapView.css';
 
 class MapView extends Component {
   render() {
     return (
-      <div>
+      <div id='map'>
         
       </div>
     );

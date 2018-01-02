@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import User from './components/User/User';
-import MapView from './components/MapView';
+import SlideIn from './components/User/SlideIn';
+import MapView from './components/Map/MapView';
 import ToggleUserBtn from './components/ToggleUserBtn';
 import './App.css';
-
 
 /**
  * Handles drawer state
@@ -31,7 +30,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <User userView={this.state.userView} toggled={this.state.toggled} />
+        <SlideIn userView={this.state.userView} toggled={this.state.toggled} />
         <MapView />
         <ToggleUserBtn userView={this.state.userView} toggleUserView={this.toggleUserView}/>
       </div>

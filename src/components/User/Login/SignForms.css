@@ -1,0 +1,87 @@
+.email-signin,.email-signup{
+  position:relative;
+  width: 100%;
+  margin-top: 20px;
+  text-align:center;
+}
+
+.u-form-group{
+  width:100%;
+  margin-bottom: 10px;
+}
+
+.u-form-group input[type="email"],
+.u-form-group input[type="password"]{
+  width: 70%;
+  height:50px;
+  outline: none;
+  border: 1px solid #ddd;
+  padding: 0 10px;
+  border-radius: 2px;
+  color: #333;
+  font-size:0.8rem;
+  -webkit-transition:all 0.1s linear;
+  -moz-transition:all 0.1s linear;
+  transition:all 0.1s linear;
+}
+
+.correct {
+  border: 1px solid greenyellow !important;
+}
+
+.incorrect {
+  border: 1px solid red !important;
+}
+
+.u-form-group input:focus{
+  border-color: #358efb;
+}
+
+.u-form-group button{
+  width:50%;
+  background-color: #1CB94E;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 14px;
+  font-weight: normal;
+  padding: 14px 0;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.u-form-group button:disabled{
+  background-color: rgb(154, 201, 169);
+  cursor: default;
+}
+
+.errorSpan{
+  position: relative;
+  margin-top: 5px;
+}
+
+.error{
+  display: inline-block;
+  background-color: #333;
+  padding: 10px 20px 10px 20px;
+  border-radius: 5px;
+  color: white;
+  font-size: 0.8rem;
+  cursor: default;
+}
+
+.error::after{
+  box-sizing: border-box;
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #333 transparent;
+}
+
+.hidden{
+  visibility: hidden;
+}
