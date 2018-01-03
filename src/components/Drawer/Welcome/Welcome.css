@@ -1,0 +1,18 @@
+.welcome button{
+  width:50%;
+  margin-top: 4px;
+  background-color: #1CB94E;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 14px;
+  font-weight: normal;
+  padding: 14px 0;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.welcome-div{
+  text-align: center;
+}

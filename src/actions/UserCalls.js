@@ -7,7 +7,10 @@ export function signUp(user) {
       return res.data;
     })
     .catch((err) => {
-      return Promise.reject(err.response.data.error);
+      if(err.response.status < 500)
+        return Promise.reject(err.response.data.error);
+      else
+        return Promise.reject('Something went wrong');
     });
 }
 
@@ -18,6 +21,9 @@ export function signIn(user){
     return res.data;
   })
   .catch((err) => {
-    return Promise.reject(err.response.data.error);
+    if(err.response.status < 500)
+      return Promise.reject(err.response.data.error);
+    else
+      return Promise.reject('Something went wrong');
   });
 }

@@ -1,0 +1,26 @@
+.loginInfo{
+  width: 70%;
+  margin: 5px auto;
+  display: flex;
+}
+
+.loginInfo button{
+  height: 45px;
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.active{
+  flex-grow: 1;
+  font-size: 1.5rem;
+  color: #1CB94E;
+  transition: font-size .35s linear;
+}
+
+.other{
+  flex-grow: 1;
+  font-size: 0.9rem;
+  transition: font-size .35s linear;
+}

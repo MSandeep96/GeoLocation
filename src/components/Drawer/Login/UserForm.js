@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-
+import './UserForm.css';
+/**
+ * Change between signin and singup
+ */
 class UserForm extends Component {
 
   constructor(props) {
@@ -21,14 +24,14 @@ class UserForm extends Component {
   render() {
     return (
       <div>
-        <div>
-          <button className={this.state.signUpMode?'active':''} onClick={this.toggleMode}>Sign Up</button>
-          <button className={this.state.signUpMode?'':'active'} onClick={this.toggleMode}>Sign In</button>
+        <div className='loginInfo'>
+          <button className={this.state.signUpMode?'active':'other'} onClick={this.toggleMode}>Register</button>
+          <button className={this.state.signUpMode?'other':'active'} onClick={this.toggleMode}>Login</button>
         </div>
         {this.state.signUpMode?(
-          <SignUp />
+          <SignUp loginCallback={this.props.loginCallback}/>
         ):(
-          <SignIn />
+          <SignIn loginCallback={this.props.loginCallback}/>
         )}
       </div>
     );

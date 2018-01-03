@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SlideIn from './components/User/SlideIn';
+import SlideIn from './components/Drawer/SlideIn';
 import MapView from './components/Map/MapView';
 import ToggleUserBtn from './components/ToggleUserBtn';
 import './App.css';
@@ -14,15 +14,36 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      userView: false,
-      toggled: false
+      drawerShown: false,
+      toggled: false,
+      isLoggedIn: false
     };
+    this.userLoggedIn = this.userLoggedIn.bind(this);
     this.toggleUserView = this.toggleUserView.bind(this);
+  }
+
+  componentWillMount(){
+    var auth = localStorage.getItem('auth');
+    if(auth!==null){
+      this.setState({
+        isLoggedIn: true,
+        auth
+      });
+    }
+  }
+
+  userLoggedIn(){
+    this.setState({
+      isLoggedIn: true,
+      userView: false,
+      toggled: true,
+      auth: localStorage.getItem('auth')
+    });
   }
 
   toggleUserView(){
     this.setState((prevState)=>({
-      userView: !prevState.userView,
+      drawerShown: !prevState.drawerShown,
       toggled: true
     }));
   }
@@ -30,9 +51,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <SlideIn userView={this.state.userView} toggled={this.state.toggled} />
-        <MapView />
-        <ToggleUserBtn userView={this.state.userView} toggleUserView={this.toggleUserView}/>
+        <SlideIn drawerShown={this.state.drawerShown} toggled={this.state.toggled} 
+          loggedIn={this.state.isLoggedIn} loginCallback={this.userLoggedIn} />
+        <ToggleUserBtn drawerShown={this.state.drawerShown} toggleUserView={this.toggleUserView}/>
+        <MapView loggedIn={this.state.isLoggedIn}/>
       </div>
     );
   }
