@@ -19,11 +19,12 @@ class App extends Component {
       isLoggedIn: false
     };
     this.userLoggedIn = this.userLoggedIn.bind(this);
-    this.toggleUserView = this.toggleUserView.bind(this);
+    this.toggleDrawer = this.toggleDrawer.bind(this);
   }
 
   componentWillMount(){
     var auth = localStorage.getItem('auth');
+    console.log('mo',auth);
     if(auth!==null){
       this.setState({
         isLoggedIn: true,
@@ -33,15 +34,14 @@ class App extends Component {
   }
 
   userLoggedIn(){
+    console.log('here');
     this.setState({
       isLoggedIn: true,
-      userView: false,
-      toggled: true,
       auth: localStorage.getItem('auth')
     });
   }
 
-  toggleUserView(){
+  toggleDrawer(){
     this.setState((prevState)=>({
       drawerShown: !prevState.drawerShown,
       toggled: true
@@ -52,8 +52,8 @@ class App extends Component {
     return (
       <div className="App">
         <SlideIn drawerShown={this.state.drawerShown} toggled={this.state.toggled} 
-          loggedIn={this.state.isLoggedIn} loginCallback={this.userLoggedIn} />
-        <ToggleUserBtn drawerShown={this.state.drawerShown} toggleUserView={this.toggleUserView}/>
+          isLoggedIn={this.state.isLoggedIn} loginCallback={this.userLoggedIn} />
+        <ToggleUserBtn drawerShown={this.state.drawerShown} toggleDrawer={this.toggleDrawer}/>
         <MapView loggedIn={this.state.isLoggedIn}/>
       </div>
     );

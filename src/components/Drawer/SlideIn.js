@@ -12,6 +12,7 @@ class SlideIn extends Component {
   }
 
   getComp(){
+    console.log('islo',this.props.isLoggedIn);
     if(this.props.isLoggedIn){
       return <Welcome />;
     }else{
