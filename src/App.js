@@ -24,21 +24,17 @@ class App extends Component {
 
   componentWillMount(){
     var auth = localStorage.getItem('auth');
-    console.log('mo',auth);
     if(auth!==null){
       this.setState({
-        isLoggedIn: true,
-        auth
+        isLoggedIn: true
       });
     }
   }
 
   userLoggedIn(){
-    console.log('here');
-    this.setState({
-      isLoggedIn: true,
-      auth: localStorage.getItem('auth')
-    });
+    this.setState((prevState)=>({
+      isLoggedIn: !prevState.isLoggedIn
+    }));
   }
 
   toggleDrawer(){

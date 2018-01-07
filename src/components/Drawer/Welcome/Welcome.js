@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import './Welcome.css';
+import { signOut } from '../../../actions/UserCalls'
 
 class Welcome extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.removeLocation = this.removeLocation.bind(this);
     this.logout = this.logout.bind(this);
   }
 
-  removeLocation(){
-    
+  removeLocation() {
+
   }
 
-  logout(){
-    
+  logout() {
+    signOut();
+    this.props.loginCallback();
   }
 
   render() {

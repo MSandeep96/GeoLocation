@@ -27,3 +27,10 @@ export function signIn(user){
       return Promise.reject('Something went wrong');
   });
 }
+
+export function signOut(){
+  axios.post('http://127.0.0.1:3003/user/logout',{},{
+    headers: {'x-auth':localStorage.getItem('auth')}
+  });
+  localStorage.removeItem('auth');
+}

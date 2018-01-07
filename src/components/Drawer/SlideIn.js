@@ -6,24 +6,24 @@ import Welcome from './Welcome/Welcome';
  * Displays login/user details when opened.
  */
 class SlideIn extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.getComp = this.getComp.bind(this);
   }
 
-  getComp(){
-    console.log('islo',this.props.isLoggedIn);
-    if(this.props.isLoggedIn){
-      return <Welcome />;
-    }else{
-      return <UserForm loginCallback={this.props.loginCallback}/>;
+  getComp() {
+    if (this.props.isLoggedIn) {
+      return <Welcome loginCallback={this.props.loginCallback} 
+      />;
+    } else {
+      return <UserForm loginCallback={this.props.loginCallback} />;
     }
   }
 
   render() {
     let classVal = 'slider ';
-    if(this.props.toggled)
-      classVal += this.props.drawerShown ?'show':'hide';
+    if (this.props.toggled)
+      classVal += this.props.drawerShown ? 'show' : 'hide';
     return (
       <div className={classVal} >
         {this.getComp()}
