@@ -6,9 +6,12 @@ import Map from './Map';
 export class MapView extends Component {
 
   render() {
+    let element = <Map google={this.props.google} userSessionExpired={this.props.userSessionExpired}/>;
+    if(!this.props.loaded)
+      element = <i className="fa fa-circle-o-notch fa-spin center" aria-hidden="true"></i>;
     return (
       <div id='mapView'>
-        <Map google={this.props.google} />
+        {element}
       </div>
     );
   }

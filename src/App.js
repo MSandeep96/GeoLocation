@@ -20,6 +20,7 @@ class App extends Component {
     };
     this.userLoggedIn = this.userLoggedIn.bind(this);
     this.toggleDrawer = this.toggleDrawer.bind(this);
+    this.userSessionExpired = this.userSessionExpired.bind(this);
   }
 
   componentWillMount(){
@@ -44,13 +45,19 @@ class App extends Component {
     }));
   }
 
+  userSessionExpired(){
+    this.setState({
+      isLoggedIn: false
+    });
+  }
+
   render() {
     return (
       <div className="App">
         <SlideIn drawerShown={this.state.drawerShown} toggled={this.state.toggled} 
           isLoggedIn={this.state.isLoggedIn} loginCallback={this.userLoggedIn} />
         <ToggleUserBtn drawerShown={this.state.drawerShown} toggleDrawer={this.toggleDrawer}/>
-        <MapView loggedIn={this.state.isLoggedIn}/>
+        <MapView loggedIn={this.state.isLoggedIn} userSessionExpired={this.userSessionExpired}/>
       </div>
     );
   }
