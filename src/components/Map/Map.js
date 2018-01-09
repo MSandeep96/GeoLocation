@@ -29,7 +29,7 @@ class Map extends Component {
     this.getUsersLocations = this.getUsersLocations.bind(this);
     this.handleUserLocations = this.handleUserLocations.bind(this);
     this.cleanUp = this.cleanUp.bind(this);
-    this.setUp = this.setUp.bind(this);
+    this.handleUpdates = this.handleUpdates.bind(this);
   }
 
   //watch user's location
@@ -43,7 +43,7 @@ class Map extends Component {
 
   //remove listeners
   componentWillUnmount() {
-    cleanUp(false);
+    this.cleanUp(false);
     navigator.geolocation.clearWatch(this.watchPosition);
   }
 
@@ -52,12 +52,14 @@ class Map extends Component {
     this.loadMap();
   }
 
-  cleanUp(logout){
-    if(logout){
+  cleanUp(logout) {
+    if (logout) {
+      for (let prop in this.usersLocations) {
+        if (this.usersLocations.hasOwnProperty(prop)) {
+          prop.marker.setMap(null);
+        }
+      }
       this.props.userSessionExpired();
-      usersLocations.forEach((e)=>{
-        e.marker.setMap(null);
-      });
     }
     clearInterval(this.sender);
     if (this.fetcher) clearInterval(this.fetcher);
@@ -90,7 +92,7 @@ class Map extends Component {
     let loc = this.location;
     delete loc.updated;
     Location.sendLocation(loc).catch((err) => {
-      if (err.response.status === 401) {
+      if (err.response && err.response.status === 401) {
         this.cleanUp(true);
       }
     });
@@ -101,7 +103,7 @@ class Map extends Component {
     Location.fetchLocation().then((res) => {
       this.handleUserLocations(res);
     }).catch((err) => {
-      if (err.response.status === 401) {
+      if (err.response && err.response.status === 401) {
         this.cleanUp(true);
       }
     });
@@ -123,9 +125,9 @@ class Map extends Component {
 
   fetchUpdates() {
     let timeNow = new Date().toISOString();
-    Location.fetchLocation(this.lastCall).then(handleUpdates)
+    Location.fetchLocation(this.lastCall).then(this.handleUpdates)
       .catch((err) => {
-        if (err.response.status === 401) {
+        if (err.response && err.response.status === 401) {
           this.cleanUp(true);
         }
       });

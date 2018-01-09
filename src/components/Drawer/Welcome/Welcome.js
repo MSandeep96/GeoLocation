@@ -21,12 +21,12 @@ class Welcome extends Component {
 
   render() {
     return (
-      <div class='welcome-div'>
+      <div className='welcome-div'>
         <h1>Welcome</h1>
-        <div class='welcome'>
+        <div className='welcome'>
           <button onClick={this.removeLocation} className='removeLocation'>Remove Location</button>
         </div>
-        <div class='welcome'>
+        <div className='welcome'>
           <button onClick={this.logout} className='logout'>Logout</button>
         </div>
       </div>

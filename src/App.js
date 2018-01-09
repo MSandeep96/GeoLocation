@@ -57,7 +57,7 @@ class App extends Component {
         <SlideIn drawerShown={this.state.drawerShown} toggled={this.state.toggled} 
           isLoggedIn={this.state.isLoggedIn} loginCallback={this.userLoggedIn} />
         <ToggleUserBtn drawerShown={this.state.drawerShown} toggleDrawer={this.toggleDrawer}/>
-        <MapView loggedIn={this.state.isLoggedIn} userSessionExpired={this.userSessionExpired}/>
+        <MapView toggleDrawer={this.toggleDrawer} loggedIn={this.state.isLoggedIn} userSessionExpired={this.userSessionExpired}/>
       </div>
     );
   }
