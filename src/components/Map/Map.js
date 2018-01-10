@@ -20,8 +20,8 @@ class Map extends Component {
     super(props);
     this.usersLocations = {};
     this.location = {
-      lat: 17.38,
-      long: 78.48,
+      latitude: 17.38,
+      longitude: 78.48,
       updated: false
     };
     this.loadMap = this.loadMap.bind(this);
@@ -30,6 +30,8 @@ class Map extends Component {
     this.handleUserLocations = this.handleUserLocations.bind(this);
     this.cleanUp = this.cleanUp.bind(this);
     this.handleUpdates = this.handleUpdates.bind(this);
+    this.sendLocation = this.sendLocation.bind(this);
+    this.markUser = this.markUser.bind(this);
   }
 
   //watch user's location
@@ -72,24 +74,36 @@ class Map extends Component {
       const node = ReactDOM.findDOMNode(this.mapDiv);
 
       let zoom = 14;
-      const center = new maps.LatLng(this.location.lat, this.location.long);
+      const center = new maps.LatLng(this.location.latitude, this.location.longitude);
       const mapConfig = {
         center,
         zoom
       };
       this.map = new maps.Map(node, mapConfig);
+      if (this.location.updated) this.markUser();
     }
   }
 
+  markUser() {
+    this.ownMarker = new this.props.google.maps.Marker({
+      position: {
+        lat: this.location.latitude,
+        lng: this.location.longitude
+      },
+      map: this.map
+    });
+  }
+
   userLocationUpdated(position) {
-    this.location.lat = position.coords.latitude;
-    this.location.long = position.coords.longitude;
+    this.location.latitude = position.coords.latitude;
+    this.location.longitude = position.coords.longitude;
     this.location.updated = true;
+    if (this.map) this.markUser();
   }
 
   sendLocation() {
     if (!this.location.updated) return;
-    let loc = this.location;
+    let loc = Object.assign({}, this.location);
     delete loc.updated;
     Location.sendLocation(loc).catch((err) => {
       if (err.response && err.response.status === 401) {
@@ -135,21 +149,21 @@ class Map extends Component {
   }
 
   handleUpdates(res) {
-    const { map } = this.props.google;
+    const {maps} = this.props.google;
     res.forEach((e) => {
       if (e.userId in this.usersLocations) {
         if (this.usersLocations[e.userId].latitude !== e.latitude ||
           this.usersLocations[e.userId].longitude !== e.longitude) {
-          this.usersLocations[e.userId].marker.setPosition(new map.LatLng(e.latitude, e.longitude));
+          this.usersLocations[e.userId].marker.setPosition(new maps.LatLng(e.latitude, e.longitude));
         }
       } else {
         this.usersLocations[e.userId] = e;
-        this.usersLocations[e.userId].marker = new this.props.google.maps.Marker({
+        this.usersLocations[e.userId].marker = new maps.Marker({
           position: {
             lat: e.latitude,
             lng: e.longitude
           },
-          map
+          map: this.map
         });
       }
     });
