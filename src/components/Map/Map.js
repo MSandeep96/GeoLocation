@@ -40,6 +40,7 @@ class Map extends Component {
     if (navigator.geolocation) {
       this.watchPosition = navigator.geolocation.watchPosition(this.userLocationUpdated);
     }
+    this.sendLocation();
     this.sender = setInterval(this.sendLocation, 10000);
   }
 
