@@ -6,6 +6,7 @@ class LocationHelper {
     this.mapComponent = mapComponent;
     this.usersLocations = {};
     this.location = {};
+    this.onlineUsers = {};
     this.ownLocationUpdated = this.ownLocationUpdated.bind(this);
     this.errorCallback = this.errorCallback.bind(this);
   }
@@ -36,7 +37,8 @@ class LocationHelper {
     }
   }
 
-  getMarker(pos) {
+  getMarker(pos, isOnline) {
+    let color = isOnline ? 'green' : 'black';
     return new this.google.maps.Marker({
       position: {
         lat: pos.latitude,
@@ -46,7 +48,8 @@ class LocationHelper {
       icon: ' ',
       label: {
         fontFamily: 'Fontawesome',
-        text: '\uf007'
+        text: '\uf007',
+        color
       }
     });
   }
@@ -107,18 +110,33 @@ class LocationHelper {
   handleUpdates(res) {
     const { maps } = this.google;
     res.forEach((e) => {
-      if (e.userId in this.usersLocations) {
-        if (!this.isEqual(this.usersLocations[e.userId], e)) {
+      if (e.userId in this.usersLocations) {  //old user
+        if (!this.isEqual(this.usersLocations[e.userId], e)) { //position updated
           this.usersLocations[e.userId].marker.setPosition(new maps.LatLng(e.latitude, e.longitude));
         }
-        let label = this.usersLocations[e.userId].marker.getLabel();
-        label.color = 'green';
-        this.usersLocations[e.userId].marker.setLabel(label);
+        if (!(e.userId in this.onlineUsers)) {  //not already online
+          let label = this.usersLocations[e.userId].marker.getLabel();
+          label.color = 'green';
+          this.usersLocations[e.userId].marker.setLabel(label);
+        }
       } else {
         this.usersLocations[e.userId] = e;
-        this.usersLocations[e.userId].marker = this.getMarker(e);
+        this.usersLocations[e.userId].marker = this.getMarker(e, true);
       }
+      this.onlineUsers[e.userId] = true;
     });
+    for (let user in this.onlineUsers) {
+      if (this.onlineUsers.hasOwnProperty(user)) {
+        if (this.onlineUsers[user]) {
+          this.onlineUsers[user] = false;
+        } else {
+          let label = this.usersLocations[user].marker.getLabel();
+          label.color = 'black';
+          this.usersLocations[user].marker.setLabel(label);
+          delete this.onlineUsers[user];
+        }
+      }
+    }
   }
   //------------------------------------------------
 
