@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export function signUp(user) {
-  return axios.post('http://127.0.0.1:3003/user/signup', user)
+  return axios.post('/user/signup', user)
     .then((res) => {
       localStorage.setItem('auth', res.headers['x-auth']);
       return res.data;
@@ -15,7 +15,7 @@ export function signUp(user) {
 }
 
 export function signIn(user){
-  return axios.post('http://127.0.0.1:3003/user/login', user)
+  return axios.post('/user/login', user)
   .then((res) => {
     localStorage.setItem('auth', res.headers['x-auth']);
     return res.data;
@@ -29,7 +29,7 @@ export function signIn(user){
 }
 
 export function signOut(){
-  axios.post('http://127.0.0.1:3003/user/logout',{},{
+  axios.post('/user/logout',{},{
     headers: {'x-auth':localStorage.getItem('auth')}
   });
   localStorage.removeItem('auth');
