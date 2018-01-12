@@ -10,7 +10,7 @@ class LocationHelper {
     this.errorCallback = this.errorCallback.bind(this);
   }
 
-  setGoogle(google){
+  setGoogle(google) {
     this.google = google;
   }
 
@@ -21,22 +21,22 @@ class LocationHelper {
   }
 
   setUpListeners() {
-    this.pulse = setInterval(this.sendPulse, 10000);
-    this.fetcher = setInterval(this.fetchUpdates, 10000);
+    this.pulse = setInterval(this.sendPulse.bind(this), 10000);
+    this.fetcher = setInterval(this.fetchUpdates.bind(this), 10000);
     if (navigator.geolocation) {
       this.watchPosition = navigator.geolocation.watchPosition(this.ownLocationUpdated);
     }
   }
 
-  cleanUpListeners(){
+  cleanUpListeners() {
     clearInterval(this.pulse);
     clearInterval(this.fetcher);
-    if(this.watchPosition){
+    if (this.watchPosition) {
       navigator.geolocation.clearWatch(this.watchPosition);
     }
   }
 
-  getMarker(pos){
+  getMarker(pos) {
     return new this.google.maps.Marker({
       position: {
         lat: pos.latitude,
@@ -50,7 +50,7 @@ class LocationHelper {
       }
     });
   }
-  
+
   markUser() {
     this.ownMarker = new this.google.maps.Marker({
       position: {
@@ -72,9 +72,8 @@ class LocationHelper {
   handleUserLocations(res) {
     res.forEach((e) => {
       this.usersLocations[e.userId] = e;
-      this.usersLocations[e.userId].marker = this.getMarker(e,false);
+      this.usersLocations[e.userId].marker = this.getMarker(e, false);
     });
-    this.fetcher = setInterval(this.fetchUpdates, 10000);
   }
   //-------------------------------------------------------
 
@@ -82,8 +81,8 @@ class LocationHelper {
   ownLocationUpdated(position) {
     this.location.latitude = position.coords.latitude;
     this.location.longitude = position.coords.longitude;
-    if(!this.hasCentered){
-      let center = new this.google.maps.LatLng(this.location.latitude,this.location.longitude);
+    if (!this.hasCentered) {
+      let center = new this.google.maps.LatLng(this.location.latitude, this.location.longitude);
       this.map.setCenter(center);
       this.hasCentered = true;
     }
@@ -93,26 +92,28 @@ class LocationHelper {
 
   //--------------Send pulse to show user's online--------------
   sendPulse(location) {
-    if(!location) location={};
+    if (!location) location = {};
     Location.sendLocation(location).catch(this.errorCallback);
   }
 
   //--------------------Fetch pulses of other users and handle them----------------------
   fetchUpdates() {
     let timeNow = new Date().toISOString();
-    Location.fetchLocation(this.lastCall).then(this.handleUpdates)
+    Location.fetchLocation(this.lastCall).then((res) => this.handleUpdates(res))
       .catch(this.errorCallback);
     this.lastCall = timeNow;
   }
 
   handleUpdates(res) {
-    const {maps} = this.props.google;
+    const { maps } = this.google;
     res.forEach((e) => {
       if (e.userId in this.usersLocations) {
-        if(!this.isEqual(this.usersLocations[e.userId],e)) {
+        if (!this.isEqual(this.usersLocations[e.userId], e)) {
           this.usersLocations[e.userId].marker.setPosition(new maps.LatLng(e.latitude, e.longitude));
-          this.usersLocations[e.userId].marker.getLabel().color = 'green';
         }
+        let label = this.usersLocations[e.userId].marker.getLabel();
+        label.color = 'green';
+        this.usersLocations[e.userId].marker.setLabel(label);
       } else {
         this.usersLocations[e.userId] = e;
         this.usersLocations[e.userId].marker = this.getMarker(e);
